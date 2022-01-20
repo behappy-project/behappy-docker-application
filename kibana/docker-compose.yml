@@ -1,0 +1,19 @@
+version: '3'
+services:
+  kibana:
+    image: kibana:latest
+    container_name: kibana
+    privileged: true
+    logging: 
+      driver: "json-file"
+      options: 
+        max-size: "10m"
+#    depends_on:
+#      - elasticsearch
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+    environment:
+      - TZ=Asia/Shanghai
+#    restart: always
+    ports:
+      - 5601:5601

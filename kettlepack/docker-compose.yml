@@ -1,0 +1,15 @@
+version: '3'
+services:
+  kettle-pack:
+    container_name: kettle-pack
+    restart: always
+    depends_on:
+      - kettle-pack-mysql
+    image: congjing/kettlepack:latest
+    ports:
+      - '9089:9089'
+    environment:
+      JDBC_HOST: 192.168.3.5
+      JDBC_PORT: 3306
+      JDBC_USERNAME: root
+      JDBC_PASSWORD: root
