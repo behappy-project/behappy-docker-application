@@ -1,12 +1,12 @@
 version: '3'
 services:
   redis:
-    image: redis:latest
+    build:
+      context: .
+    image: redis:6.2.6
     container_name: redis
     ports:
-      - "5070:6379"
+      - "6379:6379"
     volumes:
-      - ./redis.conf:/etc/redis/redis.conf
       - ./data:/data
-    command: redis-server /etc/redis/redis.conf
     privileged: true
