@@ -1,0 +1,31 @@
+version: "3.2"
+services:
+  ch:
+    build:
+      context: .
+      dockerfile: clickhouse.Dockerfile
+      cache_from:
+        - yandex/clickhouse-server:21.8.8.29
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - ./data:/var/lib/clickhouse
+      - ./log:/var/log/clickhouse-server
+    networks:
+      - clickhouse
+    privileged: true
+#    restart: always
+#  tabix:
+#    image: spoonest/clickhouse-tabix-web-client
+#    ports:
+#        - "8124:80"
+#    networks:
+#        - clickhouse
+#    depends_on:
+#        - ch
+#    restart: always
+#    privileged: true
+
+networks:
+  clickhouse:
