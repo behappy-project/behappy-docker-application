@@ -5,11 +5,13 @@ services:
       context: .
       dockerfile: clickhouse.Dockerfile
       cache_from:
-        - yandex/clickhouse-server:latest
+        - yandex/clickhouse-server:21.8.8.29
     ports:
       - "8123:8123"
+      - "9000:9000"
     volumes:
-      - ch_db:/var/lib/clickhouse
+      - ./data:/var/lib/clickhouse
+      - ./log:/var/log/clickhouse-server
     networks:
       - clickhouse
     privileged: true
@@ -27,6 +29,3 @@ services:
 
 networks:
   clickhouse:
-
-volumes:
-  ch_db:
