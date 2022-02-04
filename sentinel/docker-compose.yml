@@ -1,0 +1,10 @@
+version: '3.3'
+services:
+  sentinel:
+    restart: 'no'
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8858:8858"
+    container_name: sentinel
