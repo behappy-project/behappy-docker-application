@@ -1,31 +1,129 @@
-version: "3.2"
+version: '3.8'
 services:
-  ch:
+  cs01-01:
     build:
       context: .
       dockerfile: clickhouse.Dockerfile
-      cache_from:
-        - yandex/clickhouse-server:21.8.8.29
-    ports:
-      - "8123:8123"
-      - "9000:9000"
     volumes:
-      - ./data:/var/lib/clickhouse
-      - ./log:/var/log/clickhouse-server
+      - ./cs01-01/data:/var/lib/clickhouse
+      - ./cs01-01/log:/var/log/clickhouse-server
     networks:
       - clickhouse
     privileged: true
-#    restart: always
-#  tabix:
-#    image: spoonest/clickhouse-tabix-web-client
-#    ports:
-#        - "8124:80"
-#    networks:
-#        - clickhouse
-#    depends_on:
-#        - ch
-#    restart: always
-#    privileged: true
+    container_name: cs01-01
+    ports:
+      - '8000:9000'
+      - '8123:8123'
+      - '9009:9009'
+    extra_hosts:
+      - "server01:192.168.3.5"
+      - "server02:192.168.3.5"
+      - "server03:192.168.3.5"
+    hostname: server01
 
+  cs01-02:
+    build:
+      context: .
+      dockerfile: clickhouse.Dockerfile
+    volumes:
+      - ./cs01-02/data:/var/lib/clickhouse
+      - ./cs01-02/log:/var/log/clickhouse-server
+    networks:
+      - clickhouse
+    privileged: true
+    container_name: cs01-02
+    ports:
+      - '9001:9000'
+      - '8124:8123'
+      - '9010:9009'
+    extra_hosts:
+      - "server01:192.168.3.5"
+      - "server02:192.168.3.5"
+      - "server03:192.168.3.5"
+    hostname: server01
+
+  cs02-01:
+    build:
+      context: .
+      dockerfile: clickhouse.Dockerfile
+    volumes:
+      - ./cs02-01/data:/var/lib/clickhouse
+      - ./cs02-01/log:/var/log/clickhouse-server
+    networks:
+      - clickhouse
+    privileged: true
+    container_name: cs02-01
+    ports:
+      - '9002:9000'
+      - '8125:8123'
+      - '9011:9009'
+    extra_hosts:
+      - "server01:192.168.3.5"
+      - "server02:192.168.3.5"
+      - "server03:192.168.3.5"
+    hostname: server02
+
+  cs02-02:
+    build:
+      context: .
+      dockerfile: clickhouse.Dockerfile
+    volumes:
+      - ./cs02-02/data:/var/lib/clickhouse
+      - ./cs02-02/log:/var/log/clickhouse-server
+    networks:
+      - clickhouse
+    privileged: true
+    container_name: cs02-02
+    ports:
+      - '9003:9000'
+      - '8126:8123'
+      - '9012:9009'
+    extra_hosts:
+      - "server01:192.168.3.5"
+      - "server02:192.168.3.5"
+      - "server03:192.168.3.5"
+    hostname: server02
+
+  cs03-01:
+    build:
+      context: .
+      dockerfile: clickhouse.Dockerfile
+    volumes:
+      - ./cs03-01/data:/var/lib/clickhouse
+      - ./cs03-01/log:/var/log/clickhouse-server
+    networks:
+      - clickhouse
+    privileged: true
+    container_name: cs03-01
+    ports:
+      - '9004:9000'
+      - '8127:8123'
+      - '9013:9009'
+    extra_hosts:
+      - "server01:192.168.3.5"
+      - "server02:192.168.3.5"
+      - "server03:192.168.3.5"
+    hostname: server02
+
+  cs03-02:
+    build:
+      context: .
+      dockerfile: clickhouse.Dockerfile
+    volumes:
+      - ./cs03-02/data:/var/lib/clickhouse
+      - ./cs03-02/log:/var/log/clickhouse-server
+    networks:
+      - clickhouse
+    privileged: true
+    container_name: cs03-02
+    ports:
+      - '9005:9000'
+      - '8128:8123'
+      - '9014:9009'
+    extra_hosts:
+      - "server01:192.168.3.5"
+      - "server02:192.168.3.5"
+      - "server03:192.168.3.5"
+    hostname: server03
 networks:
   clickhouse:

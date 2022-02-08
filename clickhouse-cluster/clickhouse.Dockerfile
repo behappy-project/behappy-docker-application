@@ -6,3 +6,4 @@ ENV ch /etc/clickhouse-server/
 # overwrite config to enable tabix
 COPY config.xml  ${ch}
 COPY users.xml  ${ch}
+COPY metrika.xml  ${ch}
