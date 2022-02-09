@@ -2,7 +2,7 @@ version: '3'
 services:
   zookeeper:
     image: zookeeper:3.7.0
-    restart: always
+    #restart: always
     container_name: zookeeper
     volumes:
       - ./config:/conf
