@@ -3,7 +3,7 @@ services:
   ch1:
     build:
       context: .
-      dockerfile: clickhouse.Dockerfile
+      dockerfile: clickhouse1.Dockerfile
     volumes:
       - ./ch1/data:/var/lib/clickhouse
       - ./ch1/log:/var/log/clickhouse-server
@@ -22,12 +22,12 @@ services:
     hostname: server01
     environment:
       - CH_SHARD=1
-      - CH_REPLICA=server01
+      - CH_REPLICA=server02
 
   ch2:
     build:
       context: .
-      dockerfile: clickhouse.Dockerfile
+      dockerfile: clickhouse2.Dockerfile
     volumes:
       - ./ch2/data:/var/lib/clickhouse
       - ./ch2/log:/var/log/clickhouse-server
@@ -46,12 +46,12 @@ services:
     hostname: server02
     environment:
       - CH_SHARD=2
-      - CH_REPLICA=server02
+      - CH_REPLICA=server03
 
   ch3:
     build:
       context: .
-      dockerfile: clickhouse.Dockerfile
+      dockerfile: clickhouse3.Dockerfile
     volumes:
       - ./ch3/data:/var/lib/clickhouse
       - ./ch3/log:/var/log/clickhouse-server
@@ -70,7 +70,7 @@ services:
     hostname: server03
     environment:
       - CH_SHARD=3
-      - CH_REPLICA=server03
+      - CH_REPLICA=server01
 
 networks:
   clickhouse:
