@@ -4,6 +4,7 @@
     <!-- clickhouse_remote_servers所有实例配置都一样 -->
     <!-- 集群配置 -->
       <clickhouse_remote_servers>
+	    <!-- cluster_3s_1r:集群名称 -->
         <cluster_3s_1r>
             <shard>
 				<!-- 开启内部数据复制 -->
@@ -15,7 +16,7 @@
                     <password>123456</password>
                 </replica>
                 <replica>
-                    <host>server03</host>
+                    <host>server02</host>
                     <port>9001</port>
                     <user>default</user>
                     <password>123456</password>
@@ -27,13 +28,13 @@
                 <internal_replication>true</internal_replication>
                 <replica>
                     <host>server02</host>
-                    <port>9002</port>
+                    <port>9001</port>
                     <user>default</user>
                     <password>123456</password>
                 </replica>
                 <replica>
-                    <host>server01</host>
-                    <port>9001</port>
+                    <host>server03</host>
+                    <port>9002</port>
                     <user>default</user>
                     <password>123456</password>
                 </replica>
@@ -44,13 +45,13 @@
                 <internal_replication>true</internal_replication>
                 <replica>
                     <host>server03</host>
-                    <port>9004</port>
+                    <port>9002</port>
                     <user>default</user>
                     <password>123456</password>
                 </replica>
                 <replica>
-                    <host>server02</host>
-                    <port>9003</port>
+                    <host>server01</host>
+                    <port>9000</port>
                     <user>default</user>
                     <password>123456</password>
                 </replica>
@@ -75,11 +76,15 @@
 <!--        </node>-->
     </zookeeper-servers>
     
-    <!-- marcos每个实例配置不一样 分片1, 副本1 -->   
+    <!-- (使用ClickHouse的ReplicatedMergeTree表同步功能我们需要做一些配置操作)marcos每个实例配置不一样 分片1, 副本1 
+	replica 配置当前节点的备份同步节点信息
+	shard 指定的是集群分片信息中的配置
+	layer 指定我们的集群标志，或者使用cluster关键字
+	-->   
     <macros>
-        <layer>01</layer>
-        <shard>01</shard>
-        <replica>cluster01-01-1</replica>
+        <layer>cluster_3s_1r</layer>
+        <shard>${CH_SHARD}</shard>
+        <replica>${CH_REPLICA}</replica>
     </macros>
 
     <networks>
