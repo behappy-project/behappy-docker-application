@@ -1,31 +1,76 @@
-version: "3.2"
+version: '3.8'
 services:
-  ch:
+  ch1:
     build:
       context: .
-      dockerfile: clickhouse.Dockerfile
-      cache_from:
-        - yandex/clickhouse-server:21.8.8.29
-    ports:
-      - "8123:8123"
-      - "9000:9000"
+      dockerfile: clickhouse1.Dockerfile
     volumes:
-      - ./data:/var/lib/clickhouse
-      - ./log:/var/log/clickhouse-server
+      - ./ch1/data:/var/lib/clickhouse
+      - ./ch1/log:/var/log/clickhouse-server
     networks:
       - clickhouse
     privileged: true
-#    restart: always
-#  tabix:
-#    image: spoonest/clickhouse-tabix-web-client
-#    ports:
-#        - "8124:80"
-#    networks:
-#        - clickhouse
-#    depends_on:
-#        - ch
-#    restart: always
-#    privileged: true
+    container_name: ch1
+    ports:
+      - '9000:9000'
+      - '8123:8123'
+      - '9009:9009'
+    extra_hosts:
+      - "server01:192.168.3.5"
+      - "server02:192.168.3.5"
+      - "server03:192.168.3.5"
+    hostname: server01
+    environment:
+      - CH_SHARD=1
+      - CH_REPLICA=server02
+
+  ch2:
+    build:
+      context: .
+      dockerfile: clickhouse2.Dockerfile
+    volumes:
+      - ./ch2/data:/var/lib/clickhouse
+      - ./ch2/log:/var/log/clickhouse-server
+    networks:
+      - clickhouse
+    privileged: true
+    container_name: ch2
+    ports:
+      - '9001:9000'
+      - '8124:8123'
+      - '9010:9009'
+    extra_hosts:
+      - "server01:192.168.3.5"
+      - "server02:192.168.3.5"
+      - "server03:192.168.3.5"
+    hostname: server02
+    environment:
+      - CH_SHARD=2
+      - CH_REPLICA=server03
+
+  ch3:
+    build:
+      context: .
+      dockerfile: clickhouse3.Dockerfile
+    volumes:
+      - ./ch3/data:/var/lib/clickhouse
+      - ./ch3/log:/var/log/clickhouse-server
+    networks:
+      - clickhouse
+    privileged: true
+    container_name: ch3
+    ports:
+      - '9002:9000'
+      - '8125:8123'
+      - '9011:9009'
+    extra_hosts:
+      - "server01:192.168.3.5"
+      - "server02:192.168.3.5"
+      - "server03:192.168.3.5"
+    hostname: server03
+    environment:
+      - CH_SHARD=3
+      - CH_REPLICA=server01
 
 networks:
   clickhouse:

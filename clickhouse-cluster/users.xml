@@ -8,9 +8,10 @@
     <profiles>
         <!-- Default settings. -->
         <default>
-            <!-- Maximum memory usage for processing single query, in bytes. -->
+         <!-- Maximum memory usage for processing single query, in bytes. -->
             <max_memory_usage>10000000000</max_memory_usage>
-
+            <max_bytes_before_external_group_by>5000000000</max_bytes_before_external_group_by>
+            <connect_timeout_with_failover_ms>6000000</connect_timeout_with_failover_ms>
             <!-- How to choose between replicas during distributed query processing.
                  random - choose random replica from set of replicas with minimum number of errors
                  nearest_hostname - from set of replicas with minimum number of errors, choose replica
