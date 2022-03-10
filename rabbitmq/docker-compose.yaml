@@ -3,7 +3,6 @@ services:
   rabbitmq:
     image: rabbitmq:3.8.3-management
     container_name: rabbitmq
-    restart: always
     # rabbitmq默认使用hostname作为存储数据的节点名，设置hostname可以避免生成随机的节点名，方便追踪数据
     hostname: rabbitmq
     ports:
