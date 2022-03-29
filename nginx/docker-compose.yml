@@ -1,0 +1,18 @@
+version: '3.1'
+services:
+  nginx:
+    image: nginx     # 镜像名称
+    container_name: nginx     # 容器名字
+    restart: always     # 开机自动重启
+    ports: # 端口号绑定（宿主机:容器内）
+      - '80:80'
+      - '443:443'
+      - '6443:6443'
+    volumes: # 目录映射（宿主机:容器内）
+      - ./conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./conf.d:/etc/nginx/conf.d
+      - ./html:/usr/share/nginx/html
+      - ./ca:/etc/nginx/ca
+      - ./auth:/etc/nginx/auth
+    extra_hosts:
+      - "sapi-message.sopei:10.104.33.122"
