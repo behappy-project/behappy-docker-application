@@ -1,7 +1,7 @@
 version: '3'
 services:
   elasticsearch:
-    image: elasticsearch:latest
+    image: elasticsearch:7.12.1
     container_name: elasticsearch
     privileged: true
     logging: 
@@ -9,7 +9,7 @@ services:
       options: 
         max-size: "10m"
     environment:
-      - ES_JAVA_OPTS=-Xms2048m -Xmx2048m
+      - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
       - TZ=Asia/Shanghai
     volumes:
       - ./elaticsearch/plugins:/usr/share/elasticsearch/plugins
@@ -19,3 +19,8 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
+    networks:
+      - es-net
+networks:
+  es-net:
+    external: true

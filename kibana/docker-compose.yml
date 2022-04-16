@@ -1,7 +1,7 @@
 version: '3'
 services:
   kibana:
-    image: kibana:latest
+    image: kibana:7.12.1
     container_name: kibana
     privileged: true
     logging: 
@@ -17,3 +17,8 @@ services:
 #    restart: always
     ports:
       - 5601:5601
+    networks:
+      - es-net
+networks:
+  es-net:
+    external: true
