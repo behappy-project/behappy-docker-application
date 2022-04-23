@@ -1,5 +1,4 @@
-FROM openjdk:11
-WORKDIR /usr/local/docker/sentinel
-ADD ./sentinel-dashboard-1.8.0.jar sentinel.jar
-EXPOSE 8858
+FROM openjdk:8-jdk-alpine3.9
+WORKDIR /usr/local/app
+COPY *.jar sentinel.jar
 ENTRYPOINT ["java", "-jar", "sentinel.jar", "--server.port=8858"]
