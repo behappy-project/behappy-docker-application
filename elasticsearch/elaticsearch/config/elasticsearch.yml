@@ -5,7 +5,7 @@ node.name: es-node1
 # 绑定host，0.0.0.0代表当前节点的ip
 network.host: 0.0.0.0
 # 设置其它节点和该节点交互的ip地址，如果不设置它会自动判断，值必须是个真实的ip地址(本机ip)
-network.publish_host: 192.168.31.240
+network.publish_host: elasticsearch
 # 设置对外服务的http端口，默认为9200
 http.port: 9200
 # 设置节点间交互的tcp端口，默认是9300
@@ -20,7 +20,7 @@ node.master: true
 # 是否充当数据节点
 node.data: true
 # 所有主从节点ip:port
-discovery.seed_hosts: ["192.168.31.240"]
+discovery.seed_hosts: ["elasticsearch"]
 # cluster.initial_master_nodes: ["es-node1"]
 # 跨域允许设置的头信息，默认为X-Requested-With,Content-Type,Content-Lengt
 http.cors.allow-headers: Authorization
