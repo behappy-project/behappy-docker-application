@@ -1,23 +1,27 @@
 version: '3'
 services:
   nacos:
-    image: nacos/nacos-server:1.4.1
-    container_name: nacos
+    image: nacos/nacos-server:v2.0.4
+    container_name: nacos-sentinel
     environment:
       #PREFER_HOST_MODE: hostname #如果支持主机名可以使用hostname,否则使用ip，默认也是ip
       SPRING_DATASOURCE_PLATFORM: mysql #数据源平台
       MODE: standalone
       MYSQL_SERVICE_HOST: 192.168.31.240
-      MYSQL_SERVICE_DB_NAME: nacos_config
+      MYSQL_SERVICE_DB_NAME: nacos_config_sentinel
       MYSQL_SERVICE_PORT: 3306
       MYSQL_SERVICE_USER: root
       MYSQL_SERVICE_PASSWORD: root
       NACOS_APPLICATION_PORT: 8848
+      MYSQL_SERVICE_DB_PARAM: characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false
       JVM_XMS: 512m
-      JVM_MMS: 320m
+      JVM_XMX: 512m
+      JVM_MMS: 256m
     volumes:
       - ./standalone-logs/:/home/nacos/logs
       - ./plugins/:/home/nacos/plugins
-      - ./conf/application.properties:/home/nacos/conf/application.properties
     ports:
+    # acos2.0 新开了两个端口默认端口（8848）+1000/1001, 就是9848、9849，用作gRPC与客户端、服务端做交互
     - "8848:8848"
+    - "9848:9848"
+    - "9849:9849"
