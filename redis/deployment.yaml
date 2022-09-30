@@ -1,0 +1,130 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-alone-data
+  namespace: middleware
+spec:
+  storageClassName: managed-nfs-storage
+  capacity:
+    storage: 512Mi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /var/lib/redis
+    type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    cattle.io/creator: norman
+  name: redis-alone-data
+  namespace: middleware
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 512Mi
+  storageClassName: managed-nfs-storage
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-alone-conf
+  namespace: middleware
+data:
+  redis.conf: |-
+    appendonly yes
+    cluster-enabled no
+    #cluster-config-file /var/lib/redis/nodes.conf
+    #cluster-node-timeout 5000
+    dir /var/lib/redis
+    port 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: middleware
+spec:
+  #serviceName: redis
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+      appCluster: redis-alone
+  template:
+    metadata:
+      labels:
+        app: redis
+        appCluster: redis-alone
+    spec:
+      terminationGracePeriodSeconds: 20
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - redis
+                topologyKey: kubernetes.io/hostname
+      containers:
+        - name: redis
+          image: redis:6.0.10
+          imagePullPolicy: IfNotPresent
+          command:
+            - "redis-server"
+          args:
+            - "/etc/redis/redis.conf"
+            - "--protected-mode"
+            - "no"
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "250Mi"
+          ports:
+            - containerPort: 6379
+              name: redis
+              protocol: TCP
+          volumeMounts:
+            - name: conf
+              mountPath: /etc/redis
+            - name: data
+              mountPath: /var/lib/redis
+              subPath: data
+      volumes:
+        - name: conf
+          configMap:
+            name: redis-alone-conf
+            items:
+              - key: redis.conf
+                path: redis.conf
+        - name: data
+          persistentVolumeClaim:
+            claimName: redis-alone-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-alone-access
+  namespace: middleware
+  labels:
+    app: redis
+spec:
+  selector:
+    app: redis
+    appCluster: redis-alone
+  ports:
+    - name: redis-access
+      protocol: TCP
+      port: 6379
+      targetPort: 6379
+      nodePort: 37399
+  type: NodePort
