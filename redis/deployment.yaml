@@ -63,6 +63,7 @@ spec:
         app: redis
         appCluster: redis-alone
     spec:
+      nodeName: k3s-release-server1
       terminationGracePeriodSeconds: 20
       affinity:
         podAntiAffinity:
