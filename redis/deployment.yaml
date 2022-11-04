@@ -51,6 +51,7 @@ metadata:
   namespace: middleware
 spec:
   #serviceName: redis
+  nodeName: k3s-release-server1
   replicas: 1
   selector:
     matchLabels:
