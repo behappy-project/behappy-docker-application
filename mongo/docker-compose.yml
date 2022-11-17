@@ -1,0 +1,16 @@
+version: '3'
+services:
+  db:
+    image: mongo:5
+    container_name: mongodb-container
+    ports:
+      - '27017-27019:27017-27019'
+    command:
+      - --auth
+    environment:
+      - MONGO_INITDB_DATABASE=yygh_hosp
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./data/db:/data/db
