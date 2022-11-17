@@ -2,6 +2,11 @@ db.createUser(
     {
         user:"root",
         pwd:"root",
-        roles:["root"]
+        roles:[
+            {
+                role:"readWrite",
+                db:"yygh_hosp"
+            }
+        ]
     }
 )
