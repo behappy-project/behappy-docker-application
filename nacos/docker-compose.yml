@@ -2,7 +2,7 @@ version: '3'
 services:
   nacos:
     image: nacos/nacos-server:v2.0.4
-    container_name: nacos-sentinel
+    container_name: nacos-server
     environment:
       #PREFER_HOST_MODE: hostname #如果支持主机名可以使用hostname,否则使用ip，默认也是ip
       SPRING_DATASOURCE_PLATFORM: mysql #数据源平台
