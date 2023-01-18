@@ -8,7 +8,7 @@ services:
       SPRING_DATASOURCE_PLATFORM: mysql #数据源平台
       MODE: standalone
       MYSQL_SERVICE_HOST: <mysql-ip>
-      MYSQL_SERVICE_DB_NAME: nacos_config_sentinel
+      MYSQL_SERVICE_DB_NAME: nacos_config_server
       MYSQL_SERVICE_PORT: 3306
       MYSQL_SERVICE_USER: root
       MYSQL_SERVICE_PASSWORD: root
