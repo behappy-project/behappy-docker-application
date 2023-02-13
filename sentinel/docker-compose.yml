@@ -1,7 +1,7 @@
 version: '3'
 services:
   behappy-sentinel-dashboard:
-    restart: 'always'
+    restart: 'no'
     privileged: true
     container_name: behappy-sentinel-dashboard
     # 源码地址: https://github.com/behappy-project/behappy-sentinel-dashboard

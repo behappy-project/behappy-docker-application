@@ -4,9 +4,9 @@ services:
     image: elasticsearch:7.12.1
     container_name: elasticsearch
     privileged: true
-    logging: 
+    logging:
       driver: "json-file"
-      options: 
+      options:
         max-size: "10m"
     environment:
       - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
@@ -19,8 +19,3 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
-    networks:
-      - es-net
-networks:
-  es-net:
-    external: true
