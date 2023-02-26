@@ -1,0 +1,31 @@
+version: '3'
+services:
+  canal:
+    image: canal/canal-server:v1.1.6
+    container_name: canal
+    environment:
+      # canal admin
+      - canal.admin.manager='canal_admin:8089'
+      - canal.admin.port=11110
+      - canal.admin.user=admin
+      - canal.admin.passwd=4ACFE3202A5FF5CF467898FC58AAB1D615029441
+      # 使用集群模式
+      # - canal.admin.register.cluster=test-zk
+      - HOSTNAME=$(cat /etc/resolv.conf |grep "nameserver" |cut -f 2 -d " ")
+    volumes:
+      - ./canal-server/conf/:/admin/canal-server/conf/
+      - ./canal-server/logs/:/admin/canal-server/logs/
+  canal_admin:
+    image: canal/canal-admin:v1.1.6
+    container_name: canal_admin
+    environment:
+      - server.port=8089
+      - canal.adminUser=admin
+      - canal.adminPasswd=123456
+      - spring.datasource.address=$(cat /etc/resolv.conf |grep "nameserver" |cut -f 2 -d " "):3306
+      - spring.datasource.database=canal_manager
+      - spring.datasource.username=canal
+      - spring.datasource.password=canal
+      - HOSTNAME=$(cat /etc/resolv.conf |grep "nameserver" |cut -f 2 -d " ")
+    ports:
+      - 8089:8089
