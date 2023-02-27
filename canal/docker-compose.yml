@@ -1,31 +1,55 @@
 version: '3'
 services:
-  canal:
+  canal_server:
     image: canal/canal-server:v1.1.6
-    container_name: canal
+    container_name: canal_server
+    # 保障canal_admin在未启动成功的时候，canal_server可以二次探测(正常第二次肯定就成功了)
+    restart: on-failure
+    depends_on:
+      - canal_admin
+    ports:
+      - 11110:11110
+      - 11111:11111
+      - 11112:11112
     environment:
-      # canal admin
-      - canal.admin.manager='canal_admin:8089'
+      # register ip（当前节点，如果是docker部署，则是容器ip）
+      # canal server注册到外部zookeeper、admin的ip信息
+      - canal.register.ip=192.168.56.100
+      # canal server 的端口
+      - canal.port=11111
+      # canal server 的metrics 端口
+      - canal.metrics.pull.port=11112
+      # canal admin config，见https://github.com/alibaba/canal/wiki/Canal-Admin-ServerGuide
+      - canal.admin.manager=192.168.56.100:8089
+      # admin端口，canal 1.1.4版本新增的能力，会在canal-server上提供远程管理操作，默认值11110
       - canal.admin.port=11110
+      # canal admin 应用下 canal.adminUser 的值
       - canal.admin.user=admin
-      - canal.admin.passwd=4ACFE3202A5FF5CF467898FC58AAB1D615029441
-      # 使用集群模式
-      # - canal.admin.register.cluster=test-zk
-      - HOSTNAME=$(cat /etc/resolv.conf |grep "nameserver" |cut -f 2 -d " ")
+      # canal admin 应用下 canal.adminPasswd 下的值，但是需要通过 select password('${canal.adminPasswd}')获取，需要去掉前面的*号
+      - canal.admin.passwd=6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9
+      # admin auto register
+      # 是否开启自动注册模式
+      - canal.admin.register.auto=true
+      # 可以指定默认注册的集群名，如果不指定，默认注册为单机模式，集群的名字需要在 canal admin上存在
+      - canal.admin.register.cluster=
+      # 注册到 canal admin 上server的名字，唯一有意义即可
+      - canal.admin.register.name=canal_server_01
     volumes:
-      - ./canal-server/conf/:/admin/canal-server/conf/
-      - ./canal-server/logs/:/admin/canal-server/logs/
+      # 挂载conf会导致启动失败 todo...
+      # - ./canal-server/conf:/home/admin/canal-server/conf
+      - ./canal-server/logs:/home/admin/canal-server/logs
   canal_admin:
     image: canal/canal-admin:v1.1.6
     container_name: canal_admin
     environment:
-      - server.port=8089
       - canal.adminUser=admin
+      # 密码最低6位
       - canal.adminPasswd=123456
-      - spring.datasource.address=$(cat /etc/resolv.conf |grep "nameserver" |cut -f 2 -d " "):3306
+      - spring.datasource.address=192.168.56.100:3306
       - spring.datasource.database=canal_manager
       - spring.datasource.username=canal
       - spring.datasource.password=canal
-      - HOSTNAME=$(cat /etc/resolv.conf |grep "nameserver" |cut -f 2 -d " ")
     ports:
       - 8089:8089
+    volumes:
+      - ./canal-admin/logs:/home/admin/canal-admin/logs
