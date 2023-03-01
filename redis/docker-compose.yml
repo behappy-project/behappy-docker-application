@@ -1,12 +1,13 @@
 version: '3'
 services:
   redis:
-    build:
-      context: .
-    image: redis:6.2.6
     container_name: redis
+    image: redis:6.2.6
     ports:
       - "6379:6379"
     volumes:
       - ./data:/data
+      - ./redis.conf:/etc/redis/redis.conf
     privileged: true
+    command: /bin/sh -c "echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf
+      && redis-server /etc/redis/redis.conf"
