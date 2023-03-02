@@ -1,5 +1,5 @@
 CREATE USER canal IDENTIFIED BY 'canal';
-GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'canal'@'%%';
+GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'canal'@'%';
 FLUSH PRIVILEGES;
 show grants for 'canal'@'%';
 -- # +----------------------------------------------------------------------------+
