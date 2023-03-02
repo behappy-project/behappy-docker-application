@@ -1,12 +1,8 @@
 CREATE USER canal IDENTIFIED BY 'canal';
-GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'canal'@'%';
+GRANT ALL PRIVILEGES ON *.* TO 'canal'@'%';
 FLUSH PRIVILEGES;
 show grants for 'canal'@'%';
--- # +----------------------------------------------------------------------------+
--- # | Grants for canal@%                                                        |
--- # +----------------------------------------------------------------------------+
--- # | GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO `canal`@`%` |
---     # +----------------------------------------------------------------------------+
+---------------------------------------------------------------------------------------------------------------------------
 select password('123456');
 ---------------------------------------------------------------------------------------------------------------------------
 CREATE DATABASE /*!32312 IF NOT EXISTS*/ `canal_manager` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
