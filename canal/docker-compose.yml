@@ -1,7 +1,7 @@
 version: '3'
 services:
   canal_server:
-    image: canal/canal-server:v1.1.6
+    image: canal/canal-server:v1.1.5
     container_name: canal_server
     # 保障canal_admin在未启动成功的时候，canal_server可以二次探测(正常第二次肯定就成功了)
     restart: on-failure
@@ -39,7 +39,7 @@ services:
       # - ./canal-server/conf:/home/admin/canal-server/conf
       - ./canal-server/logs:/home/admin/canal-server/logs
   canal_admin:
-    image: canal/canal-admin:v1.1.6
+    image: canal/canal-admin:v1.1.5
     container_name: canal_admin
     environment:
       - canal.adminUser=admin
