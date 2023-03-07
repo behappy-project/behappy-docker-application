@@ -21,7 +21,7 @@ services:
       - ./standalone-logs/:/home/nacos/logs
       - ./plugins/:/home/nacos/plugins
     ports:
-    # acos2.0 新开了两个端口默认端口（8848）+1000/1001, 就是9848、9849，用作gRPC与客户端、服务端做交互
+    # nacos2.0 新开了两个端口默认端口（8848）+1000/1001, 就是9848、9849，用作gRPC与客户端、服务端做交互
     - "8848:8848"
     - "9848:9848"
     - "9849:9849"
