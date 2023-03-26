@@ -1,6 +1,6 @@
 version: "3.1"
 services:
-  seata-server:
+  seata-server-1:
     image: seataio/seata-server:1.6.1
     ports:
       - "7091:7091"
@@ -15,3 +15,22 @@ services:
       - "/usr/share/zoneinfo/Asia/Shanghai:/etc/timezone"  #设置时区
       # 假设我们通过docker cp命令把资源文件拷贝到相对路径`./seata-server/resources`中
       - "./seata-server/resources:/seata-server/resources"
+      
+  seata-server-2:
+    image: seataio/seata-server:1.6.1
+    ports:
+      - "7092:7091"
+      - "8092:8091"
+    environment:
+      - STORE_MODE=db
+      # 以SEATA_IP作为host注册seata server
+      - SEATA_IP=192.168.56.100
+      - SEATA_PORT=8092
+    volumes:
+      - "/usr/share/zoneinfo/Asia/Shanghai:/etc/localtime"        #设置系统时区
+      - "/usr/share/zoneinfo/Asia/Shanghai:/etc/timezone"  #设置时区
+      # 假设我们通过docker cp命令把资源文件拷贝到相对路径`./seata-server/resources`中
+      # 如有问题，请阅读上面的[注意事项]以及[使用自定义配置文件]
+      - "./seata-server/resources:/seata-server/resources"
+
+  # seata服务3......seata服务N
