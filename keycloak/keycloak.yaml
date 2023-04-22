@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  keycloak:
+    image: quay.mirrors.ustc.edu.cn/keycloak/keycloak:21.1.0
+    volumes:
+      - /opt/ca/:/usr/local/src/
+    environment:
+      KC_DB: mysql
+      KC_DB_URL: jdbc:mysql://192.168.56.100:3306/keycloak?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+      KC_DB_USERNAME: root
+      KC_DB_PASSWORD: 'root'
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: keycloak
+      KC_HOSTNAME_URL: https://192.168.56.100:8443
+    ports:
+      - "8800:8080"
+      - "8843:8443"
+    command: start --https-certificate-file=/usr/local/src/cacerts.pem --https-certificate-key-file=/usr/local/src/cakey.pem

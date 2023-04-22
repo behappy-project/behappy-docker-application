@@ -1,0 +1,22 @@
+dn: ou=people,dc=extension,dc=net
+ou: people
+description: 用户根目录
+objectClass: organizationalUnit
+
+dn: ou=dingtalkroot,dc=extension,dc=net
+ou: dingtalkroot
+description: 钉钉根部门
+objectClass: top
+objectClass: organizationalUnit
+
+dn: ou=wecomroot,dc=extension,dc=net
+ou: wecomroot
+description: 企业微信根部门
+objectClass: top
+objectClass: organizationalUnit
+
+dn: ou=feishuroot,dc=extension,dc=net
+ou: feishuroot
+description: 飞书根部门
+objectClass: top
+objectClass: organizationalUnit
