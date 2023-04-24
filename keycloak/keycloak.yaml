@@ -11,7 +11,8 @@ services:
       KC_DB_PASSWORD: 'root'
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: keycloak
-      KC_HOSTNAME_URL: https://192.168.56.100:8443
+      KC_HOSTNAME: 192.168.56.100
+      KC_HOSTNAME_PORT: 8843
     ports:
       - "8800:8080"
       - "8843:8443"
