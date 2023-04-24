@@ -3,7 +3,7 @@ services:
   keycloak:
     image: quay.mirrors.ustc.edu.cn/keycloak/keycloak:21.1.0
     volumes:
-      - /opt/ca/:/usr/local/src/
+      - ./ca/:/usr/local/src/
     environment:
       KC_DB: mysql
       KC_DB_URL: jdbc:mysql://192.168.56.100:3306/keycloak?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
