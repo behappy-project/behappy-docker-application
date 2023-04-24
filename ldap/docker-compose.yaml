@@ -9,7 +9,6 @@ services:
     image: dockerproxy.com/osixia/openldap:1.5.0
     container_name: go-ldap-admin-openldap
     hostname: go-ldap-admin-openldap
-    restart: always
     environment:
       TZ: Asia/Shanghai
       LDAP_ORGANISATION: "extension.net"
@@ -29,7 +28,6 @@ services:
     image: dockerproxy.com/osixia/phpldapadmin:0.9.0
     container_name: go-ldap-admin-phpldapadmin
     hostname: go-ldap-admin-phpldapadmin
-    restart: always
     environment:
       TZ: Asia/Shanghai # 设置容器时区与宿主机保持一致
       PHPLDAPADMIN_HTTPS: "false" # 是否使用https
@@ -49,7 +47,6 @@ services:
     image: dockerproxy.com/eryajf/go-ldap-admin-server:2023-04-12_09-32
     container_name: go-ldap-admin-server
     hostname: go-ldap-admin-server
-    restart: always
     environment:
       TZ: Asia/Shanghai
       WAIT_HOSTS: openldap:389
@@ -70,7 +67,6 @@ services:
     image: dockerproxy.com/eryajf/go-ldap-admin-ui:2023-03-22_06-18
     container_name: go-ldap-admin-ui
     hostname: go-ldap-admin-ui
-    restart: always
     volumes:
       - ./config/.env.production:/app/.env.production
     environment:
