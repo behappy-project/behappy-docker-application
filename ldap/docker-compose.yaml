@@ -44,7 +44,7 @@ services:
       - go-ldap-admin
 
   go-ldap-admin-server:
-    image: dockerproxy.com/eryajf/go-ldap-admin-server:2023-04-12_09-32
+    image: dockerproxy.com/eryajf/go-ldap-admin-server:2023-04-25_15-12
     container_name: go-ldap-admin-server
     hostname: go-ldap-admin-server
     environment:
@@ -64,7 +64,7 @@ services:
       - go-ldap-admin
 
   go-ldap-admin-ui:
-    image: dockerproxy.com/eryajf/go-ldap-admin-ui:2023-03-22_06-18
+    image: dockerproxy.com/eryajf/go-ldap-admin-ui:2023-04-25_15-12
     container_name: go-ldap-admin-ui
     hostname: go-ldap-admin-ui
     volumes:
