@@ -43,6 +43,7 @@ data:
     #cluster-node-timeout 5000
     dir /var/lib/redis
     port 6379
+    logfile "/var/log/redis/redis.log"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -81,11 +82,12 @@ spec:
           image: redis:6.0.10
           imagePullPolicy: IfNotPresent
           command:
-            - "redis-server"
-          args:
-            - "/etc/redis/redis.conf"
-            - "--protected-mode"
-            - "no"
+            - sh
+            - -c
+            - |
+              mkdir -p /var/log/redis &&
+              touch /var/log/redis/redis.log &&
+              exec redis-server /etc/redis/redis.conf --protected-mode no
           resources:
             requests:
               cpu: "200m"
