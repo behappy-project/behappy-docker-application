@@ -1,0 +1,79 @@
+version: "3"
+
+# 通用配置
+x-common-config: &common-config
+  ALLOW_PLAINTEXT_LISTENER: yes
+  KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+  KAFKA_CFG_INTER_BROKER_LISTENER_NAME: INTERNAL
+  KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+
+# kafka镜像通用配置
+x-kafka: &kafka
+  image: bitnami/kafka:3.2
+  networks:
+    net:
+  depends_on:
+    - zookeeper
+
+services:
+
+  zookeeper:
+    container_name: zookeeper
+    image: bitnami/zookeeper:3.8
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - net
+    volumes:
+      - zookeeper_data:/bitnami/zookeeper
+
+  kafka-0:
+    container_name: kafka-0
+    <<: *kafka
+    ports:
+      - "9093:9093"
+    environment:
+      <<: *common-config
+      KAFKA_CFG_BROKER_ID: 0
+      KAFKA_CFG_LISTENERS: INTERNAL://:9092,EXTERNAL://0.0.0.0:9093
+      KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://kafka-0:9092,EXTERNAL://10.150.36.72:9093 #修改为宿主机IP
+    volumes:
+      - kafka_0_data:/bitnami/kafka
+
+  kafka-1:
+    container_name: kafka-1
+    <<: *kafka
+    ports:
+      - "9094:9094"
+    environment:
+      <<: *common-config
+      KAFKA_CFG_BROKER_ID: 1
+      KAFKA_CFG_LISTENERS: INTERNAL://:9092,EXTERNAL://0.0.0.0:9094
+      KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://kafka-1:9092,EXTERNAL://10.150.36.72:9094 #修改为宿主机IP
+    volumes:
+      - kafka_1_data:/bitnami/kafka
+
+  kafka-2:
+    container_name: kafka-2
+    <<: *kafka
+    ports:
+      - "9095:9095"
+    environment:
+      <<: *common-config
+      KAFKA_CFG_BROKER_ID: 2
+      KAFKA_CFG_LISTENERS: INTERNAL://:9092,EXTERNAL://0.0.0.0:9095
+      KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://kafka-2:9092,EXTERNAL://10.150.36.72:9095 #修改为宿主机IP
+    volumes:
+      - kafka_2_data:/bitnami/kafka
+
+volumes:
+  zookeeper_data:
+  kafka_0_data:
+  kafka_1_data:
+  kafka_2_data:
+
+
+networks:
+  net:

@@ -1,0 +1,71 @@
+# kraft通用配置
+x-kraft: &common-config
+  ALLOW_PLAINTEXT_LISTENER: yes
+  KAFKA_ENABLE_KRAFT: yes
+  KAFKA_KRAFT_CLUSTER_ID: MTIzNDU2Nzg5MGFiY2RlZg
+  KAFKA_CFG_PROCESS_ROLES: broker,controller
+  KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
+  KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: BROKER:PLAINTEXT,CONTROLLER:PLAINTEXT
+  KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 1@kafka-1:9091,2@kafka-2:9091,3@kafka-3:9091
+  KAFKA_CFG_INTER_BROKER_LISTENER_NAME: BROKER
+
+# 镜像通用配置
+x-kafka: &kafka
+  image: 'bitnami/kafka:3.3.1'
+  networks:
+    net:
+
+# 自定义网络
+networks:
+  net:
+
+# project名称
+name: kraft
+services:
+  
+  # combined server
+  kafka-1:
+    <<: *kafka
+    container_name: kafka-1
+    ports:
+      - '9092:9092'
+    environment:
+      <<: *common-config
+      KAFKA_CFG_BROKER_ID: 1
+      KAFKA_CFG_LISTENERS: CONTROLLER://:9091,BROKER://:9092
+      KAFKA_CFG_ADVERTISED_LISTENERS: BROKER://192.168.2.187:9092 #宿主机IP
+
+  kafka-2:
+    <<: *kafka
+    container_name: kafka-2
+    ports:
+      - '9093:9093'
+    environment:
+      <<: *common-config
+      KAFKA_CFG_BROKER_ID: 2
+      KAFKA_CFG_LISTENERS: CONTROLLER://:9091,BROKER://:9093
+      KAFKA_CFG_ADVERTISED_LISTENERS: BROKER://192.168.2.187:9093 #宿主机IP
+
+  kafka-3:
+    <<: *kafka
+    container_name: kafka-3
+    ports:
+      - '9094:9094'
+    environment:
+      <<: *common-config
+      KAFKA_CFG_BROKER_ID: 3
+      KAFKA_CFG_LISTENERS: CONTROLLER://:9091,BROKER://:9094
+      KAFKA_CFG_ADVERTISED_LISTENERS: BROKER://192.168.2.187:9094 #宿主机IP
+
+  #broker only
+  kafka-4:
+    <<: *kafka
+    container_name: kafka-4
+    ports:
+      - '9095:9095'
+    environment:
+      <<: *common-config
+      KAFKA_CFG_BROKER_ID: 4
+      KAFKA_CFG_PROCESS_ROLES: broker
+      KAFKA_CFG_LISTENERS: BROKER://:9095
+      KAFKA_CFG_ADVERTISED_LISTENERS: BROKER://192.168.2.187:9095
