@@ -27,7 +27,7 @@ http.cors.allow-headers: Authorization
 #锁内存，提前占用内存
 bootstrap.memory_lock: true
 # 这条配置表示开启xpack认证机制
-xpack.security.enabled: true
+xpack.security.enabled: false
 http.max_content_length: 500mb
 #xpack.security.http.ssl.enabled: true
 #xpack.security.transport.ssl.enabled: true
