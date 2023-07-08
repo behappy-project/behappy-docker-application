@@ -1,7 +1,7 @@
 version: '3'
 services:
   kibana:
-    image: kibana:7.12.1
+    image: kibana:7.14.1
     container_name: kibana
     privileged: true
     logging:
