@@ -6,8 +6,8 @@ server.host: "0.0.0.0"
 #elasticsearch.ssl.certificateAuthorities: ["/usr/share/kibana/config/certs/ca.crt"]
 #elasticsearch.ssl.verificationMode: none
 elasticsearch.hosts: ["http://192.168.56.100:9200"]
-elasticsearch.username: kibana_system
-elasticsearch.password: xiaowu
+#elasticsearch.username: kibana_system
+#elasticsearch.password: xiaowu
 elasticsearch.requestTimeout: 60000
 xpack.reporting.encryptionKey: fd7c75cf-6abd-4704-a614-10a8679d64e7
 #monitoring.ui.enabled: true
