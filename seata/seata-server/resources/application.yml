@@ -36,7 +36,7 @@ seata:
       group: DEFAULT_GROUP
       namespace: 2f060af4-6ceb-460a-acb8-0acf6715d20e
       # tc集群名称
-      cluster: default
+      cluster: ${SEATA_TC_CLUSTER:default}
       username: nacos
       password: nacos
   #  server:
