@@ -8,7 +8,7 @@ services:
     image: wangxiaowu950330/behappy-sentinel-dashboard:v1.8.5-nacos
     # 修改环境变量
 #    environment:
-#      JAVA_OPTS: "-Xms256m -Xmx256m -Dauth.password=123456 -Dfile.encoding=UTF-8 -Djava.security.egd=file:/dev/./urandom"
+#      JAVA_OPTS: "-Xms256m -Xmx256m -Dauth.password=sentinel -Dfile.encoding=UTF-8 -Djava.security.egd=file:/dev/./urandom"
 #      SPRING_CLOUD_SENTINEL_DATASOURCE_NACOS_SERVERADDR: 192.168.56.100:8848
 #      SPRING_CLOUD_SENTINEL_DATASOURCE_NACOS_USERNAME: nacos
 #      SPRING_CLOUD_SENTINEL_DATASOURCE_NACOS_PASSWORD: nacos
