@@ -1,0 +1,31 @@
+version: "3"
+services:
+  db:
+    image: postgres:13
+    hostname: postgresql
+    container_name: postgresql
+    restart: always
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 'sopei123_postgresql'
+      APP_DB_USER: sonar
+      APP_DB_PASS: sonar
+      APP_DB_NAME: sonar
+    volumes:
+      - ./postgresql:/var/lib/postgresql
+      - ./postgresql_data:/var/lib/postgresql/data
+      - ./init_db:/docker-entrypoint-initdb.d/
+    ports:
+      - "5432:5432"
+    networks:
+      docker_default:
+        aliases:
+          - postgres-alias
+networks:
+  docker_default:
+    external: true
