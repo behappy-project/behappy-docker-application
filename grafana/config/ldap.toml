@@ -1,0 +1,37 @@
+[[servers]]
+host = "127.0.0.1" 
+port = 389
+use_ssl = false
+start_tls = false
+ssl_skip_verify = true
+bind_dn = "cn=admin,dc=extension,dc=net"
+bind_password = 'admin'
+search_filter = "(cn=%s)"
+search_base_dns = ["ou=people,dc=extension,dc=net"]
+[servers.attributes]
+name = "uid"
+surname = "sn"
+username = "cn"
+member_of = "memberOf"
+email = "mail"
+# 可以通过servers.group_mappings为每个group分配权限，前提是必须保证org_id存在【此值默认为1，也就是Main org.】
+[[servers.group_mappings]]
+group_dn = "ou=feishuroot,dc=extension,dc=net"
+org_role = "Viewer"
+grafana_admin = false
+org_id = 1
+[[servers.group_mappings]]
+group_dn = "ou=feishuroot,dc=extension,dc=net"
+org_role = "Viewer"
+grafana_admin = false
+org_id = 2
+[[servers.group_mappings]]
+group_dn = "ou=feishuroot,dc=extension,dc=net"
+org_role = "Viewer"
+grafana_admin = false
+org_id = 3
+[[servers.group_mappings]]
+group_dn = "ou=feishuroot,dc=extension,dc=net"
+org_role = "Viewer"
+grafana_admin = false
+org_id = 4
