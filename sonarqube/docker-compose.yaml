@@ -1,0 +1,32 @@
+version: "3"
+services:
+  sonarqube:
+    image: m.daocloud.io/docker.io/sonarqube:10.4.1-community 
+    hostname: sonarqube
+    container_name: sonarqube
+    restart: always
+    "command": [
+      "-Dsonar.search.javaAdditionalOpts=-Dnode.store.allow_mmap=false"
+    ]
+    environment:
+      TZ: Asia/Shanghai
+      SONAR_JDBC_URL: jdbc:postgresql://postgresql:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+      SONAR_WEB_JAVAADDITIONALOPTS: "-javaagent:/opt/sonarqube/extensions/plugins/sonarqube-community-branch-plugin-1.19.0.jar=web"
+      SONAR_CE_JAVAADDITIONALOPTS: "-javaagent:/opt/sonarqube/extensions/plugins/sonarqube-community-branch-plugin-1.19.0.jar=ce"
+    volumes:
+      - ./sonarqube_data:/opt/sonarqube/data
+      - ./sonarqube_extensions:/opt/sonarqube/extensions
+      - ./sonarqube_logs:/opt/sonarqube/logs
+      - ./sonarqube_conf:/opt/sonarqube/conf
+    ports:
+      - "9000:9000"
+    networks:
+      docker_default:
+        aliases:
+          - sonarqube-alias
+networks:
+  docker_default:
+    external: true
+
