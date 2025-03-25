@@ -22,7 +22,7 @@ networks:
 # project名称
 name: kraft
 services:
-  
+
   # combined server
   kafka-1:
     <<: *kafka
@@ -33,7 +33,7 @@ services:
       <<: *common-config
       KAFKA_CFG_BROKER_ID: 1
       KAFKA_CFG_LISTENERS: CONTROLLER://:9091,BROKER://:9092
-      KAFKA_CFG_ADVERTISED_LISTENERS: BROKER://192.168.2.187:9092 #宿主机IP
+      KAFKA_CFG_ADVERTISED_LISTENERS: BROKER://10.13.75.170:9092 #宿主机IP
 
   kafka-2:
     <<: *kafka
@@ -44,7 +44,7 @@ services:
       <<: *common-config
       KAFKA_CFG_BROKER_ID: 2
       KAFKA_CFG_LISTENERS: CONTROLLER://:9091,BROKER://:9093
-      KAFKA_CFG_ADVERTISED_LISTENERS: BROKER://192.168.2.187:9093 #宿主机IP
+      KAFKA_CFG_ADVERTISED_LISTENERS: BROKER://10.13.75.170:9093 #宿主机IP
 
   kafka-3:
     <<: *kafka
@@ -55,7 +55,7 @@ services:
       <<: *common-config
       KAFKA_CFG_BROKER_ID: 3
       KAFKA_CFG_LISTENERS: CONTROLLER://:9091,BROKER://:9094
-      KAFKA_CFG_ADVERTISED_LISTENERS: BROKER://192.168.2.187:9094 #宿主机IP
+      KAFKA_CFG_ADVERTISED_LISTENERS: BROKER://10.13.75.170:9094 #宿主机IP
 
   #broker only
   kafka-4:
@@ -68,4 +68,4 @@ services:
       KAFKA_CFG_BROKER_ID: 4
       KAFKA_CFG_PROCESS_ROLES: broker
       KAFKA_CFG_LISTENERS: BROKER://:9095
-      KAFKA_CFG_ADVERTISED_LISTENERS: BROKER://192.168.2.187:9095
+      KAFKA_CFG_ADVERTISED_LISTENERS: BROKER://10.13.75.170:9095

@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  kafka-map:
+    image: dushixiang/kafka-map:latest
+    container_name: kafka-map
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - DEFAULT_USERNAME=admin
+      - DEFAULT_PASSWORD=admin
+    volumes:
+      - ./data:/usr/local/kafka-map/data
