@@ -5,6 +5,7 @@ services:
     hostname: postgresql
     container_name: postgresql
     restart: always
+    # platform: "linux/x86_64"
     healthcheck:
       test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
       timeout: 45s
